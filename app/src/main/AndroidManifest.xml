@@ -29,6 +29,9 @@
             android:name=".TELAS.ViewNoteActivity"
             android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"/>
 
+        <activity
+            android:name=".TELAS.EditNoteActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 

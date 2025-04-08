@@ -8,6 +8,8 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginVertical="23dp"
         android:layout_height="500dp"
         android:src="@drawable/logo" />
 
@@ -18,5 +20,6 @@
         android:layout_gravity="center"
         android:backgroundTint="#6200EE"
         android:text="Iniciar"
+        android:layout_marginTop="20dp"
         android:elevation="8dp"/>
 </LinearLayout>
