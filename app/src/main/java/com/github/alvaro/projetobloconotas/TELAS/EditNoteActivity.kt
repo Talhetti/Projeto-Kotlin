@@ -12,16 +12,22 @@ class EditNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.editar_nota)
 
-        // Referência ao EditText onde o usuário digita a nota
         val inputNota = findViewById<EditText>(R.id.inputNota)
         val buttonOk = findViewById<Button>(R.id.button2)
 
+        // Recupera as notas anteriores da intent (caso existam)
+        val notasAnteriores = intent.getStringArrayListExtra("notas") ?: ArrayList()
+
         buttonOk.setOnClickListener {
             val textoNota = inputNota.text.toString()
+            if (textoNota.isNotBlank()) {
+                notasAnteriores.add(textoNota)
 
-            val intent = Intent(this, ViewNoteActivity::class.java)
-            intent.putExtra("nota", textoNota) // envia a nota para a próxima tela
-            startActivity(intent)
+                // Envia a lista de notas atualizada para a ViewNoteActivity
+                val intent = Intent(this, ViewNoteActivity::class.java)
+                intent.putStringArrayListExtra("notas", notasAnteriores)
+                startActivity(intent)
+            }
         }
     }
 }

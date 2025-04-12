@@ -4,10 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <!-- Título do app -->
     <TextView
-        android:id="@+id/textoNota"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/purple_700"
@@ -17,24 +18,22 @@
         android:textColor="@color/white"
         android:textSize="30sp" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- RecyclerView para exibir a lista de notas -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/meuBotao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@color/purple_700"
-            android:padding="30dp"
-            android:text="Adicionar nota"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <!-- Botão para adicionar uma nova nota -->
+    <Button
+        android:id="@+id/meuBotao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/purple_700"
+        android:padding="16dp"
+        android:text="Adicionar nota"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
 </LinearLayout>
