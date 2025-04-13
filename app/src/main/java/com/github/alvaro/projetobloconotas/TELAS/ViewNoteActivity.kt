@@ -2,49 +2,44 @@ package com.github.alvaro.projetobloconotas.TELAS
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.alvaro.projetobloconotas.R
-import android.view.View
+import com.github.alvaro.projetobloconotas.data.AppDatabase
+import com.github.alvaro.projetobloconotas.data.Nota
+import kotlinx.coroutines.launch
 
 class ViewNoteActivity : AppCompatActivity() {
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var notasAdapter: NotasAdapter
-    private val notasList = mutableListOf<String>() // Lista de notas
+    private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ver_nota)
 
+        db = AppDatabase.getDatabase(applicationContext)
+
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        notasAdapter = NotasAdapter(notasList)
+        notasAdapter = NotasAdapter(listOf())
         recyclerView.adapter = notasAdapter
 
-        // Recupera a lista de notas da intent
-        val listaNotas = intent.getStringArrayListExtra("notas") ?: ArrayList()
-        notasList.addAll(listaNotas)
-        notasAdapter.notifyDataSetChanged()
+        // Carrega as notas do banco de dados
+        lifecycleScope.launch {
+            val listaNotas = db.notaDao().getAllNotas()
+            notasAdapter = NotasAdapter(listaNotas.map { it.conteudo }) // Mapeia as notas para exibir o conteúdo
+            recyclerView.adapter = notasAdapter
+        }
 
         findViewById<View>(R.id.meuBotao).setOnClickListener {
-            // Passa as notas atuais para a próxima tela
             val intent = Intent(this, EditNoteActivity::class.java)
-            intent.putStringArrayListExtra("notas", ArrayList(notasList))
             startActivity(intent)
-        }
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            val novaNota = data?.getStringExtra("nota")
-            novaNota?.let {
-                notasList.add(it)
-                notasAdapter.notifyDataSetChanged()
-            }
         }
     }
 }
